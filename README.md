@@ -39,13 +39,13 @@ powerbi/
 Built entirely with formulas (SUMIFS/AVERAGEIFS, no hardcoded values), with
 native charts and data validation. Sheets:
 
-- **Dashboard** — KPI cards (Total Sales, Total Profit, Overall Margin %,
+- **Dashboard** - KPI cards (Total Sales, Total Profit, Overall Margin %,
   Order Count) plus summary charts
-- **Raw Data** — the cleaned dataset as an Excel Table
-- **Category Summary** — PivotTable-style rollup by Category and Sub-Category
-- **ABC Pareto Analysis** — sub-categories ranked by profit with cumulative
+- **Raw Data** - the cleaned dataset as an Excel Table
+- **Category Summary** - PivotTable-style rollup by Category and Sub-Category
+- **ABC Pareto Analysis** - sub-categories ranked by profit with cumulative
   profit % and ABC classification, combo bar/line chart
-- **Discount Scenario** — Goal Seek-ready what-if model: finds the discount
+- **Discount Scenario** - Goal Seek-ready what-if model: finds the discount
   rate at which a chosen sub-category's scenario profit hits zero
 
 ## Power BI dashboard
@@ -57,14 +57,14 @@ Sub-Category Profit Rank, Cumulative Profit %, ABC Class.
 
 Four report pages:
 
-1. **Overview** — KPI cards, sales trend over time, YoY growth
-2. **Category & Region** — matrix and clustered bar by category/region
-3. **ABC Pareto** — combo chart (profit bars + cumulative % line) and detail
+1. **Overview** - KPI cards, sales trend over time, YoY growth
+2. **Category & Region** - matrix and clustered bar by category/region
+3. **ABC Pareto** - combo chart (profit bars + cumulative % line) and detail
    table with ABC classification, conditional formatting on negative profit
-4. **Discount & Margin** — scatter of discount vs. profit by sub-category,
+4. **Discount & Margin** - scatter of discount vs. profit by sub-category,
    sized by sales, highlighting over-discounted loss-makers
 
-> **Note:** the `.pbix` file isn't in this repo yet — it was built directly
+> **Note:** the `.pbix` file isn't in this repo yet - it was built directly
 > in Power BI Desktop and needs to be added manually. Save it into
 > `powerbi/Retail_Sales_Inventory_Performance.pbix` and commit it.
 
