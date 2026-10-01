@@ -64,9 +64,7 @@ Four report pages:
 4. **Discount & Margin** - scatter of discount vs. profit by sub-category,
    sized by sales, highlighting over-discounted loss-makers
 
-> **Note:** the `.pbix` file isn't in this repo yet - it was built directly
-> in Power BI Desktop and needs to be added manually. Save it into
-> `powerbi/Retail_Sales_Inventory_Performance.pbix` and commit it.
+
 
 ## Key finding
 
