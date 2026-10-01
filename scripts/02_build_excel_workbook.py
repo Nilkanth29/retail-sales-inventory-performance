@@ -31,9 +31,9 @@ BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 
 wb = Workbook()
 
-# =========================================================================
+
 # Sheet 1: Raw Data
-# =========================================================================
+
 ws = wb.active
 ws.title = 'Raw Data'
 cols = list(df.columns)
@@ -83,9 +83,9 @@ SUBCAT_RNG = f"{RD}${col_letter['Sub-Category']}$2:${col_letter['Sub-Category']}
 REGION_RNG = f"{RD}${col_letter['Region']}$2:${col_letter['Region']}${last_row}"
 YEAR_RNG = f"{RD}${col_letter['Year']}$2:${col_letter['Year']}${last_row}"
 
-# =========================================================================
-# Hidden helper sheet: distinct lists (for data validation + iteration order)
-# =========================================================================
+
+# Hidden helper sheet - distinct lists for data validation + iteration order
+
 subcats_by_profit = (df.groupby('Sub-Category')['Profit'].sum().sort_values().index.tolist())
 regions = sorted(df['Region'].dropna().unique().tolist())
 categories = sorted(df['Category'].dropna().unique().tolist())
@@ -99,9 +99,7 @@ lst.sheet_state = 'hidden'
 print("Sheet 1 (Raw Data) + Lists done.", n, "rows,", len(subcats_by_profit), "sub-categories")
 wb.save(OUT)
 
-# =========================================================================
 # Sheet 2: Category Summary
-# =========================================================================
 ws2 = wb.create_sheet('Category Summary')
 ws2['A1'] = 'Retail Sales & Inventory Performance — Category Summary'
 ws2['A1'].font = TITLE_FONT
@@ -110,7 +108,7 @@ ws2['A2'].font = SUBTITLE_FONT
 ws2.merge_cells('A1:G1')
 ws2.merge_cells('A2:G2')
 
-# --- Region x Category matrix (Sales) ---
+#  Region x Category matrix (Sales) 
 ws2['A4'] = 'Sales by Region x Category'
 ws2['A4'].font = LABEL_FONT
 r0 = 5
@@ -140,7 +138,7 @@ for j in range(2, tot_col + 1):
     ws2.cell(row=last_reg_row + 1, column=j,
               value=f'=SUM({col}{r0+1}:{col}{last_reg_row})').number_format = '$#,##0'
 
-# --- Sub-Category ranked table ---
+#  Sub-Category ranked table 
 sc_start = last_reg_row + 4
 ws2.cell(row=sc_start - 1, column=1, value='Sub-Category Performance (worst profit first)').font = LABEL_FONT
 headers = ['Sub-Category', 'Sales', 'Profit', 'Quantity', 'Avg Discount', 'Profit Margin %']
@@ -172,9 +170,9 @@ ws2.merge_cells(f'A{sc_end+2}:F{sc_end+2}')
 print("Sheet 2 (Category Summary) done.")
 wb.save(OUT)
 
-# =========================================================================
+
 # Sheet 3: ABC Pareto Analysis
-# =========================================================================
+
 subcats_desc = list(reversed(subcats_by_profit))
 ws3 = wb.create_sheet('ABC Pareto Analysis')
 ws3['A1'] = 'ABC Classification — Sub-Category Profit Contribution'
@@ -237,9 +235,7 @@ ws3.add_chart(bar, f'G{r0}')
 print("Sheet 3 (ABC Pareto Analysis) done.")
 wb.save(OUT)
 
-# =========================================================================
 # Sheet 4: Discount Scenario (Goal Seek)
-# =========================================================================
 ws4 = wb.create_sheet('Discount Scenario')
 ws4['A1'] = 'Discount Breakeven Scenario (What-If / Goal Seek)'
 ws4['A1'].font = TITLE_FONT
@@ -285,10 +281,7 @@ default_subcat = subcats_by_profit[0]
 default_discount = float(df.loc[df['Sub-Category'] == default_subcat, 'Discount'].mean())
 
 ws4['A13'] = 'Discount Rate (Goal Seek: changing cell)'
-ws4['B13'] = round(default_discount, 4)  # hardcoded starting value, NOT a formula —
-# Goal Seek's "changing cell" must hold a constant, not a formula, or Excel refuses it
-# with "Cell must contain a value". Starts equal to the sub-category's actual avg
-# discount; edit it directly (or via Goal Seek) to test other rates.
+ws4['B13'] = round(default_discount, 4) 
 ws4['B13'].font = INPUT_FONT
 ws4['B13'].fill = INPUT_FILL
 ws4['B13'].number_format = '0.0%'
@@ -323,7 +316,7 @@ neg_rule = CellIsRule(operator='lessThan', formula=['0'], fill=NEG_FILL)
 ws4.conditional_formatting.add('B15:B16', neg_rule)
 ws4.conditional_formatting.add('B6', neg_rule)
 
-# --- Sensitivity table: Profit at discount 0% to 60% ---
+#  Sensitivity table: Profit at discount 0% to 60% 
 ws4['A19'] = 'Sensitivity: Scenario Profit at Discount Rate 0%–60%'
 ws4['A19'].font = LABEL_FONT
 ws4.merge_cells('A19:D19')
@@ -355,9 +348,9 @@ ws4.add_chart(line, 'D4')
 print("Sheet 4 (Discount Scenario) done.")
 wb.save(OUT)
 
-# =========================================================================
+
 # Sheet 5: Dashboard
-# =========================================================================
+
 ws5 = wb.create_sheet('Dashboard')
 ws5['A1'] = 'Retail Sales & Inventory Performance — Dashboard'
 ws5['A1'].font = TITLE_FONT
@@ -431,7 +424,7 @@ bar.set_categories(cats2)
 bar.height, bar.width = 8, 14
 ws5.add_chart(bar, 'E22')
 
-wb.move_sheet('Dashboard', offset=-4)  # put Dashboard first
+wb.move_sheet('Dashboard', offset=-4)  # puting Dashboard first
 wb.active = 0
 
 print("Sheet 5 (Dashboard) done.")
